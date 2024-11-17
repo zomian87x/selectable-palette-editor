@@ -56,6 +56,7 @@ A web-based tool for image color quantization, palette extraction, and batch ima
 4. Select the number of colors to extract using the slider.
 5. Click **"Process Batch"** to process all images in the folder.
 
+
 ---
 
 ### Tab 2: Color Map Generator
