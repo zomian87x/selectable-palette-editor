@@ -1,7 +1,7 @@
 
 # Selectable Palette Editor
 
-日本語版は[コチラ]()
+日本語版は[コチラ](https://github.com/zomian87x/selectable-palette-editor/tree/main?tab=readme-ov-file#%E3%82%BB%E3%83%AC%E3%82%AF%E3%82%BF%E3%83%96%E3%83%AB%E3%83%91%E3%83%AC%E3%83%83%E3%83%88%E3%82%A8%E3%83%87%E3%82%A3%E3%82%BF)
 
 A web-based tool for image color quantization, palette extraction, and batch image processing. The application allows users to generate palettes, save custom colors, and apply them to images, making it ideal for artists, designers, and developers working with reduced color palettes.
 
@@ -107,10 +107,10 @@ This project is licensed under the [MIT License](LICENSE).
 ## Screenshots
 
 ### Tab 1: Image Color Quantizer
-![Palette Generator Screenshot](path-to-screenshot)
+![Palette Generator Screenshot](./screenshots/screenshot1.png)
 
 ### Tab 2: Color Map Generator
-![Color Map Generator Screenshot](path-to-screenshot)
+![Color Map Generator Screenshot](./screenshots/screenshot2.png)
 
 ---
 
@@ -216,10 +216,10 @@ pip install -r requirements.txt
 ## スクリーンショット
 
 ### タブ 1: 画像カラークオンタイザ
-![パレットジェネレータのスクリーンショット](path-to-screenshot)
+![パレットジェネレータのスクリーンショット](./screenshots/screenshot1.png)
 
 ### タブ 2: カラーマップジェネレータ
-![カラーマップジェネレータのスクリーンショット](path-to-screenshot)
+![カラーマップジェネレータのスクリーンショット](./screenshots/screenshot2.png)
 
 ---
 
