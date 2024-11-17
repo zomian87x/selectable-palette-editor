@@ -9,8 +9,6 @@ import gradio as gr
 import io
 from PIL import Image
 
-# == Tab 1 ==
-
 # 必要なフォルダの作成と初期化
 def initialize_folders():
     for folder in ["./colors", "./palette",]:
@@ -156,107 +154,36 @@ def process_palette(input_image, palette_input, num_colors):
 # Counter to ensure unique file naming
 save_index = 0
 
-# == Tab 2 ==
-# カラーマップを生成する関数
-def generate_full_color_map(size=64, value=1.0):
-    """
-    全色を含む2次元カラーマップを生成 (明度を調整可能)
-    """
-    hue = np.linspace(0, 1, size)  # 色相
-    saturation = np.linspace(0, 1, size)  # 彩度
-    h, s = np.meshgrid(hue, saturation)
-    v = np.ones_like(h) * value  # 明度を設定
-    hsv = np.stack([h, s, v], axis=-1)
-    return hsv_to_rgb(hsv)
-
-# 反転カラーマップを結合する関数
-def generate_combined_color_map(size=64):
-    """
-    上部が白、下部が黒になるように2つのカラーマップを結合
-    """
-    top_map = generate_full_color_map(size=size, value=1.0)  # 明度1.0のカラーマップ
-    bottom_map = generate_full_color_map(size=size, value=0.0)  # 明度0.0のカラーマップ（黒）
-
-    # 上下を結合
-    combined_map = np.vstack((top_map, bottom_map))
-    return combined_map
-
-
-# 範囲を指定して塗りつぶす関数
-def modify_combined_color_map(x_min, x_max, y_min, y_max, size=64):
-    """
-    指定範囲を中間色で塗りつぶし (全色対応、結合後のカラーマップ)
-    """
-    base_map = generate_combined_color_map(size)
-    total_size = size * 2  # 結合後のサイズは2倍
-    x_min_idx = int(x_min / 100 * size)
-    x_max_idx = int(x_max / 100 * size)
-    y_min_idx = int(y_min / 100 * total_size)
-    y_max_idx = int(y_max / 100 * total_size)
-
-    # 範囲の中間地点の色を取得
-    mid_x = (x_min_idx + x_max_idx) // 2
-    mid_y = (y_min_idx + y_max_idx) // 2
-    mid_color = base_map[mid_y, mid_x]
-
-    # 範囲を塗りつぶし
-    modified_map = base_map.copy()
-    modified_map[y_min_idx:y_max_idx, x_min_idx:x_max_idx] = mid_color
-
-    return modified_map, mid_color
-
-# Gradioで表示するための関数
-def create_combined_colormap_image(x_min, x_max, y_min, y_max, size=64):
-    """
-    結合されたカラーマップを作成して表示
-    """
-    modified_map, mid_color = modify_combined_color_map(x_min, x_max, y_min, y_max, size=size)
-    
-    # カラーマップ画像を保存
-    fig, ax = plt.subplots(figsize=(6, 12))  # 縦長の図を作成
-    ax.imshow(modified_map, extent=[0, 100, 0, 200], origin='lower')
-    ax.axis("off")  # 軸を非表示にする
-    
-    buf = io.BytesIO()
-    plt.savefig(buf, format="png", bbox_inches="tight", pad_inches=0)
-    plt.close(fig)
-    buf.seek(0)
-    img = Image.open(buf)
-    return img
-
-
 with gr.Blocks(theme=gr.themes.Base(), title="Selectable Palette Editor") as app:
-    with gr.Tab("Quantizer"):
-        gr.Markdown("## Image Color Quantizer")
-        with gr.Row():
-            with gr.Column():
-                with gr.Tab("Single Image"):
-                    input_image = gr.Image(type="pil", label="Input Image")
-                    palette_input = gr.Image(type="pil", label="Palette Image (Optional)")
-                    num_colors = gr.Slider(2, 256, value=16, step=1, label="Number of Colors")
-                    recolor_button = gr.Button("Generate Palette", variant='primary')
-                with gr.Tab("Batch Processing"):
-                    input_folder = gr.Textbox(label="Input Folder Path")
-                    output_folder = gr.Textbox(label="Output Folder Path")
-                    palette_input_batch = gr.Image(type="pil", label="Palette Image (Optional)") #batch 用のinput 
-                    num_colors_batch = gr.Slider(2, 256, value=16, step=1, label="Number of Colors") # batch 用のslider
-                    batch_process_button = gr.Button("Process Batch", variant='primary')
-                    batch_output = gr.Textbox(label="Batch Processing Results")
-            
-            with gr.Column():
-                palette_gallery = gr.Gallery(label="Palette Colors", elem_id="palette_gallery", columns=4, allow_preview=False)
-                selected_num = gr.Textbox(label="Selected Index", visible=False) #デバッグ用
-                save_to_palette = gr.Button("Save to Palette")
-                selected_gallery = gr.Gallery(label="Saved Colors", elem_id="saved_gallery", columns=4, allow_preview=False)
-                with gr.Row():
-                    reset_button = gr.Button("Reset Palette")
-                    merge_button = gr.Button("Merge Saved Colors")
-                merged_output = gr.Image(type="filepath", label="Merged Palette Image")
-            
-            with gr.Column():
-                output_image = gr.Image(label="Reduced Color Image")    
-
-    # == Tab 1 ==
+    
+    gr.Markdown("## Image Color Quantizer")
+    with gr.Row():
+        with gr.Column():
+            with gr.Tab("Single Image"):
+                input_image = gr.Image(type="pil", label="Input Image")
+                palette_input = gr.Image(type="pil", label="Palette Image (Optional)")
+                num_colors = gr.Slider(2, 256, value=16, step=1, label="Number of Colors")
+                recolor_button = gr.Button("Generate Palette", variant='primary')
+            with gr.Tab("Batch Processing"):
+                input_folder = gr.Textbox(label="Input Folder Path")
+                output_folder = gr.Textbox(label="Output Folder Path")
+                palette_input_batch = gr.Image(type="pil", label="Palette Image (Optional)") #batch 用のinput 
+                num_colors_batch = gr.Slider(2, 256, value=16, step=1, label="Number of Colors") # batch 用のslider
+                batch_process_button = gr.Button("Process Batch", variant='primary')
+                batch_output = gr.Textbox(label="Batch Processing Results")
+        
+        with gr.Column():
+            palette_gallery = gr.Gallery(label="Palette Colors", elem_id="palette_gallery", columns=4, allow_preview=False)
+            selected_num = gr.Textbox(label="Selected Index", visible=False) #デバッグ用
+            save_to_palette = gr.Button("Save to Palette")
+            selected_gallery = gr.Gallery(label="Saved Colors", elem_id="saved_gallery", columns=4, allow_preview=False)
+            with gr.Row():
+                reset_button = gr.Button("Reset Palette")
+                merge_button = gr.Button("Merge Saved Colors")
+            merged_output = gr.Image(type="filepath", label="Merged Palette Image")
+        
+        with gr.Column():
+            output_image = gr.Image(label="Reduced Color Image")
 
     palette_state = gr.State([])
     selected_index = gr.State(None)
@@ -339,7 +266,5 @@ with gr.Blocks(theme=gr.themes.Base(), title="Selectable Palette Editor") as app
         list_images_in_folder,
         outputs=selected_gallery
     )
-
-    # == Tab 2 ==
 
 app.launch(share=True)

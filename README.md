@@ -23,7 +23,7 @@ A web-based tool for image color quantization, palette extraction, and batch ima
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/your-username/selectable-palette-editor.git
+   git clone https://github.com/zomian87x/selectable-palette-editor.git
    cd selectable-palette-editor
    ```
 
@@ -34,7 +34,7 @@ A web-based tool for image color quantization, palette extraction, and batch ima
 
 3. Run the application:
    ```bash
-   python your_script_name.py
+   python WebUI.py
    ```
 
 ---
@@ -94,16 +94,6 @@ This project is licensed under the [MIT License](LICENSE).
 
 ---
 
-## Contributing
-
-1. Fork the repository.
-2. Create a new branch (`git checkout -b feature-branch`).
-3. Commit your changes (`git commit -m 'Add a new feature'`).
-4. Push to the branch (`git push origin feature-branch`).
-5. Open a pull request.
-
----
-
 ## Screenshots
 
 ### Tab 1: Image Color Quantizer
@@ -143,7 +133,7 @@ This project was inspired by tools for color palette management and aims to stre
 
 1. このリポジトリをクローン:
    ```bash
-   git clone https://github.com/your-username/selectable-palette-editor.git
+   git clone https://github.com/zomian87x/selectable-palette-editor.git
    cd selectable-palette-editor
    ```
 
@@ -154,7 +144,7 @@ This project was inspired by tools for color palette management and aims to stre
 
 3. アプリケーションを実行:
    ```bash
-   python your_script_name.py
+   python WebUI.py
    ```
 
 ---
