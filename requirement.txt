@@ -1,0 +1,4 @@
+gradio
+pillow
+matplotlib
+numpy
